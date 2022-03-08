@@ -1,5 +1,20 @@
 .App {
   text-align: center;
+  background-color: #282c34;
+  /* background: "https://i.pinimg.com/736x/41/7b/05/417b052c252f1d2763ec5175dc1e7c55.jpg"; */
+}
+.background {
+  background-image: url('../public/stock.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  /* z-index: -1; */
 }
 
 .App-logo {
