@@ -1,5 +1,5 @@
 import React from "react";
-import "../App.css";
+import "../../App.css";
 import Card from "@mui/material/Card";
 import { CardContent, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -21,12 +21,11 @@ import {
 	responsiveFontSizes,
 } from "@mui/material/styles";
 // import Image from '@mui/material/Image';
-import LoginImage from "../assets/undraw_two.svg";
+import SignUpImage from "../../assets/undraw_account.svg";
 import { makeStyles } from "@mui/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import axios from "axios";
 import swal from "sweetalert";
-import { UIStore } from "../store";
 
 const useStyle = makeStyles((theme) => ({
 	imageStyle: {
@@ -47,10 +46,12 @@ const useStyle = makeStyles((theme) => ({
 	},
 }));
 
-export default function SignIn() {
+export default function SignUp() {
 	const matches = useMediaQuery("(max-width:768px)");
 	const classes = useStyle();
 	const [values, setValues] = React.useState({
+		firstName: "",
+		lastName: "",
 		email: "",
 		password: "",
 	});
@@ -59,25 +60,18 @@ export default function SignIn() {
 	};
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const res = await axios.post("http://localhost:5000/api/auth/login", {
+		// console.log(values);
+		const res = await axios.post("http://localhost:5000/api/users/register", {
+			firstname: values.firstName,
+			lastname: values.lastName,
 			email: values.email,
 			password: values.password,
 		});
-		if (res && res.data.token) {
-			localStorage.setItem("token", res.data.token);
-			UIStore.update((s) => {
-				s.token = res.data.token;
-			});
-			localStorage.setItem("auth", true);
-			window.location.href = "/dashboard";
-		} else {
-			swal({
-				title: "Error",
-				text: res.data.message,
-				icon: "error",
-				button: "Ok",
-			});
+		console.log(res);
+		if (res.status === 200) {
+			swal("Success", "You have successfully registered", "success");
 		}
+		window.location.href = "/";
 	};
 	return (
 		<>
@@ -100,10 +94,10 @@ export default function SignIn() {
          </Grid> */}
 							<Grid item lg={6} xs={12}>
 								<Container component="main" maxWidth="xs">
-									{/* <CssBaseline /> */}
+									<CssBaseline />
 									<Box
 										sx={{
-											marginTop: 4,
+											marginTop: 8,
 											display: "flex",
 											flexDirection: "column",
 											alignItems: "center",
@@ -113,57 +107,81 @@ export default function SignIn() {
 											{/* <LockOutlinedIcon /> */}
 										</Avatar>
 										<Typography component="h1" variant="h5">
-											Sign in
+											Sign up
 										</Typography>
 										<Box
 											component="form"
-											onSubmit={handleSubmit}
 											noValidate
-											sx={{ mt: 1 }}
+											onSubmit={handleSubmit}
+											sx={{ mt: 3 }}
 										>
-											<TextField
-												margin="normal"
-												required
-												fullWidth
-												id="email"
-												label="Email Address"
-												name="email"
-												autoComplete="email"
-												autoFocus
-												onChange={handleChange("email")}
-											/>
-											<TextField
-												margin="normal"
-												required
-												fullWidth
-												name="password"
-												label="Password"
-												type="password"
-												id="password"
-												autoComplete="current-password"
-												onChange={handleChange("password")}
-											/>
-											<FormControlLabel
-												control={<Checkbox value="remember" color="primary" />}
-												label="Remember me"
-											/>
+											<Grid container spacing={2}>
+												<Grid item xs={12} sm={6}>
+													<TextField
+														autoComplete="given-name"
+														name="firstName"
+														required
+														fullWidth
+														id="firstName"
+														label="First Name"
+														autoFocus
+														onChange={handleChange("firstname")}
+													/>
+												</Grid>
+												<Grid item xs={12} sm={6}>
+													<TextField
+														required
+														fullWidth
+														id="lastName"
+														label="Last Name"
+														name="lastName"
+														autoComplete="family-name"
+														onChange={handleChange("lastname")}
+													/>
+												</Grid>
+												<Grid item xs={12}>
+													<TextField
+														required
+														fullWidth
+														id="email"
+														label="Email Address"
+														name="email"
+														autoComplete="email"
+														onChange={handleChange("email")}
+													/>
+												</Grid>
+												<Grid item xs={12}>
+													<TextField
+														required
+														fullWidth
+														name="password"
+														label="Password"
+														type="password"
+														id="password"
+														autoComplete="new-password"
+														onChange={handleChange("password")}
+													/>
+												</Grid>
+												{/* <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  label="I want to receive inspiration, marketing promotions and updates via email."
+                />
+              </Grid> */}
+											</Grid>
 											<Button
 												type="submit"
 												fullWidth
 												variant="contained"
 												sx={{ mt: 3, mb: 2 }}
+												// onSubmit={() => console.log("hello world")}
 											>
-												Sign In
+												Sign Up
 											</Button>
-											<Grid container>
-												{/* <Grid item xs>
-													<Link href="#" variant="body2">
-														Forgot password?
-													</Link>
-												</Grid> */}
+											<Grid container justifyContent="flex-end">
 												<Grid item>
-													<Link href="/signup" variant="body2">
-														{"Don't have an account? Sign Up"}
+													<Link href="/" variant="body2">
+														Already have an account? Sign in
 													</Link>
 												</Grid>
 											</Grid>
@@ -203,57 +221,80 @@ export default function SignIn() {
 											{/* <LockOutlinedIcon /> */}
 										</Avatar>
 										<Typography component="h1" variant="h5">
-											Sign in
+											Sign up
 										</Typography>
 										<Box
 											component="form"
-											onSubmit={handleSubmit}
 											noValidate
-											sx={{ mt: 1 }}
+											onSubmit={handleSubmit}
+											sx={{ mt: 3 }}
 										>
-											<TextField
-												margin="normal"
-												required
-												fullWidth
-												id="email"
-												label="Email Address"
-												name="email"
-												autoComplete="email"
-												autoFocus
-												onChange={handleChange("email")}
-											/>
-											<TextField
-												margin="normal"
-												required
-												fullWidth
-												name="password"
-												label="Password"
-												type="password"
-												id="password"
-												autoComplete="current-password"
-												onChange={handleChange("password")}
-											/>
-											<FormControlLabel
-												control={<Checkbox value="remember" color="primary" />}
-												label="Remember me"
-											/>
+											<Grid container spacing={2}>
+												<Grid item xs={12} sm={6}>
+													<TextField
+														autoComplete="given-name"
+														name="firstName"
+														required
+														fullWidth
+														id="firstName"
+														label="First Name"
+														autoFocus
+														onChange={handleChange("firstName")}
+													/>
+												</Grid>
+												<Grid item xs={12} sm={6}>
+													<TextField
+														required
+														fullWidth
+														id="lastName"
+														label="Last Name"
+														name="lastName"
+														autoComplete="family-name"
+														onChange={handleChange("lastName")}
+													/>
+												</Grid>
+												<Grid item xs={12}>
+													<TextField
+														required
+														fullWidth
+														id="email"
+														label="Email Address"
+														name="email"
+														autoComplete="email"
+														onChange={handleChange("email")}
+													/>
+												</Grid>
+												<Grid item xs={12}>
+													<TextField
+														required
+														fullWidth
+														name="password"
+														label="Password"
+														type="password"
+														id="password"
+														autoComplete="new-password"
+														onChange={handleChange("password")}
+													/>
+												</Grid>
+												{/* <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  label="I want to receive inspiration, marketing promotions and updates via email."
+                />
+              </Grid> */}
+											</Grid>
 											<Button
 												type="submit"
 												fullWidth
 												variant="contained"
 												sx={{ mt: 3, mb: 2 }}
 											>
-												Sign In
+												Sign Up
 											</Button>
-											<Grid container>
-												{/* <Grid item xs>
-													<Link href="#" variant="body2">
-														Forgot password?
-													</Link>
-												</Grid> */}
+											<Grid container justifyContent="flex-end">
 												<Grid item>
-													<Link href="/signup" variant="body2">
-														{"Don't have an account? Sign Up"}
+													<Link href="/" variant="body2">
+														Already have an account? Sign in
 													</Link>
 												</Grid>
 											</Grid>
@@ -263,7 +304,7 @@ export default function SignIn() {
 							</Grid>
 							<Grid item lg={6} md={6} xs={12}>
 								<img
-									src={LoginImage}
+									src={SignUpImage}
 									alt="logo"
 									className={classes.imageStyle}
 								/>
