@@ -19,8 +19,6 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { mainListItems, secondaryListItems } from "./listItems";
-import Chart from "./Chart";
-import Deposits from "./Deposits";
 import Orders from "./Orders";
 import CardItem from "./CardItem/CardItem";
 import AppWidgets1 from "./CardItem/AppWidgets1";
@@ -127,7 +125,7 @@ function DashboardContent() {
 	React.useEffect(() => {
 		const getData = async () => {
 			const response = await axios.get(
-				"http://localhost:5000/api/currency/currency"
+				"https://userauthbe.herokuapp.com/api/currency/currency"
 			);
 			console.log(response);
 			setData(response.data);
@@ -285,8 +283,6 @@ function DashboardContent() {
 							<Grid item xs={12} md={4}>
 								<AppWidgets1 />
 							</Grid>
-
-							{/* Recent Orders */}
 							<Grid item xs={12}>
 								<Paper
 									sx={{

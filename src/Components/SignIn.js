@@ -59,10 +59,13 @@ export default function SignIn() {
 	};
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const res = await axios.post("http://localhost:5000/api/auth/login", {
-			email: values.email,
-			password: values.password,
-		});
+		const res = await axios.post(
+			"https://userauthbe.herokuapp.com/api/auth/login",
+			{
+				email: values.email,
+				password: values.password,
+			}
+		);
 		if (res && res.data.token) {
 			localStorage.setItem("token", res.data.token);
 			UIStore.update((s) => {

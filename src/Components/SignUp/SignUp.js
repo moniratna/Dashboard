@@ -61,12 +61,15 @@ export default function SignUp() {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		// console.log(values);
-		const res = await axios.post("http://localhost:5000/api/users/register", {
-			firstname: values.firstName,
-			lastname: values.lastName,
-			email: values.email,
-			password: values.password,
-		});
+		const res = await axios.post(
+			"https://userauthbe.herokuapp.com/api/users/register",
+			{
+				firstname: values.firstName,
+				lastname: values.lastName,
+				email: values.email,
+				password: values.password,
+			}
+		);
 		console.log(res);
 		if (res.status === 200) {
 			swal("Success", "You have successfully registered", "success");
@@ -89,9 +92,6 @@ export default function SignUp() {
 						}}
 					>
 						<Grid container>
-							{/* <Grid item lg={6} xs={12}>
-           <img src={LoginImage} alt="logo" className={classes.imageStyle} />
-         </Grid> */}
 							<Grid item lg={6} xs={12}>
 								<Container component="main" maxWidth="xs">
 									<CssBaseline />
@@ -162,12 +162,6 @@ export default function SignUp() {
 														onChange={handleChange("password")}
 													/>
 												</Grid>
-												{/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid> */}
 											</Grid>
 											<Button
 												type="submit"
@@ -217,9 +211,7 @@ export default function SignUp() {
 											alignItems: "center",
 										}}
 									>
-										<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-											{/* <LockOutlinedIcon /> */}
-										</Avatar>
+										<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
 										<Typography component="h1" variant="h5">
 											Sign up
 										</Typography>
@@ -276,12 +268,6 @@ export default function SignUp() {
 														onChange={handleChange("password")}
 													/>
 												</Grid>
-												{/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid> */}
 											</Grid>
 											<Button
 												type="submit"
