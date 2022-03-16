@@ -30,6 +30,9 @@ import { UIStore } from "../../store";
 import Popover from "@mui/material/Popover";
 import { Button } from "@mui/material";
 import axios from "axios";
+import io from "socket.io-client";
+
+const socket = io("https://userauthbe.herokuapp.com/");
 
 const drawerWidth = 240;
 
@@ -121,8 +124,12 @@ function DashboardContent() {
 	var dataprice = [];
 	const [nameArr, setNameArr] = React.useState(null);
 	const [priceArr, setPriceArr] = React.useState(null);
+	const [response, setResponse] = React.useState(null);
 
 	React.useEffect(() => {
+		socket.on("FromAPI", (data) => {
+			setResponse(data);
+		});
 		const getData = async () => {
 			const response = await axios.get(
 				"https://userauthbe.herokuapp.com/api/currency/currency"
@@ -178,6 +185,15 @@ function DashboardContent() {
 							sx={{ flexGrow: 1 }}
 						>
 							Dashboard
+						</Typography>
+						<Typography
+							component="text"
+							variant="text"
+							color="inherit"
+							noWrap
+							sx={{ flexGrow: 1 }}
+						>
+							Time {response}
 						</Typography>
 						<IconButton color="inherit">
 							<Badge
